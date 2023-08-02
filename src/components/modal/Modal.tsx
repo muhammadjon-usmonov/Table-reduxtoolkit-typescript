@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import { Button, Modal, Form, Input} from "antd";
 import { store, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser, editUser, setEditId } from "../../store";
+import { addUser,  editUser, setEditId, } from "../../store";
 const AddModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const dispatch = useDispatch();
 	const editingId = useSelector((state: RootState) => state.main.editingId);
 	const [form] = Form.useForm();
-	const showModal = () => {
-		setIsModalOpen(true);
-	};
+	const showModal = () => {setIsModalOpen(true)};
+	
 	useEffect(() => {
 		if (editingId) {
 			const row = store.getState().main.list.find((item) => item.id === editingId);
@@ -21,6 +20,7 @@ const AddModal = () => {
 				first_name: row?.first_name,
 			});
 		}
+		
 	}, [editingId]);
 	const handleOk = () => {
 		if (!editingId) {
@@ -37,23 +37,25 @@ const AddModal = () => {
 					id: editingId
 				}))
 				setIsModalOpen(false);	
-				setEditId(null);
 			});	
 		}
 	};
 	const handleCancel = () => {
+		dispatch(setEditId(null))
 		setIsModalOpen(false);
 	};
 	return (
 		<>
 			<Button
 				type='primary'
-				style={{ marginLeft: "100px", display: "inline" }}
+				size="middle"
+				
+				style={{  display: "inline" }}
 				onClick={showModal}>
 				ADD
 			</Button>
 			<Modal
-				title='Users add'
+				title=  {editingId? "Edit": "ADD"}
 				open={isModalOpen}
 				onOk={handleOk}
 				onCancel={handleCancel}>

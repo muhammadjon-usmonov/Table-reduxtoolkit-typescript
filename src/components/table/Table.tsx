@@ -65,29 +65,26 @@ const columns: ColumnsType<IList> = [
 	},
 	{
 		title: "Action",
-		render: function (record, _key) {
-			return (
-				<>
-					<Button
-						size='small'
-						type='primary'
-						onClick={() => store.dispatch(setEditId(record?.id))}>
-						Edit
-					</Button>
-					<Button
-						style={{ marginLeft: "10px" }}
-						size='small'
-						type='primary'
-						danger
-						onClick={() => removeUser(record?.id)}>
-						Delete
-					</Button>
-				</>
-			);
-		},
+		render: (record, _key) => (
+			<>
+				<Button
+					size='small'
+					type='primary'
+					onClick={() => store.dispatch(setEditId(record?.id))}>
+					Edit
+				</Button>
+				<Button
+					style={{ marginLeft: "10px" }}
+					size='small'
+					type='primary'
+					danger
+					onClick={() => removeUser(record?.id)}>
+					Delete
+				</Button>
+			</>
+		),
 	},
 ];
-
 function Table() {
 	const list = useSelector((s: RootState) => s.main.list);
 	const notIcludedIds = useSelector((s: RootState) => s.main.notIncludedIds);
@@ -95,13 +92,14 @@ function Table() {
 	const [active, setActive] = useState(false);
 	return (
 		<>
-			<Row style={{ marginTop: "10px" }}>
+			<Row style={{ margin: "10px", marginBottom:"5px"  }}>
 				<Col span={8}>
 					<Input
 						type='text'
+						bordered={true}
 						name=''
 						placeholder='search'
-						size='small'
+						size='middle'
 						id=''
 						value={text}
 						onChange={(e) => {
@@ -118,7 +116,7 @@ function Table() {
 				</Col>
 				<Col span={8}>
 					<Checkbox
-						style={{ marginLeft: "20px" }}
+						style={{  marginTop:"5px",marginLeft:"20px" }}
 						type='checkbox'
 						name=''
 						id=''

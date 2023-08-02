@@ -21,7 +21,7 @@ const initialState: CounterState = {
 			last_name: "McAlister",
 			username: "@mnfo",
 			count: 3,
-			active:false,
+			active: false,
 		},
 		{
 			id: crypto.randomUUID(),
@@ -61,16 +61,18 @@ export const main = createSlice({
 				payload,
 			}: PayloadAction<{ id: string; type: "increment" | "decrement" }>,
 		) => {
-			state.list = state.list.map((item,_key) =>
+			state.list = state.list.map((item, _key) =>
 				item?.id === payload.id
 					? {
-						...item,
-						count:
-							payload.type === "increment"
-								? item.count + 1
-								: item.count - 1,
+							...item,
+							count:
+								payload.type === "increment"
+									? item.count + 1
+									: item.count - 1,
 					  }
-					: item)},
+					: item,
+			);
+		},
 		addUser: (
 			state,
 			{
@@ -89,7 +91,9 @@ export const main = createSlice({
 			});
 		},
 		deleteUser: (state, { payload }: PayloadAction<{ id: string }>) => {
-			state.list = state.list.filter((item,_key) => item?.id !== payload.id);
+			state.list = state.list.filter(
+				(item, _key) => item?.id !== payload.id,
+			);
 		},
 		searchUser: (
 			state,
@@ -119,7 +123,7 @@ export const main = createSlice({
 			state,
 			{ payload }: PayloadAction<{ id: string; is_active: boolean }>,
 		) => {
-			state.list = state.list.map((item,_key) =>
+			state.list = state.list.map((item, _key) =>
 				item.id === payload.id
 					? { ...item, active: payload.is_active }
 					: item,
@@ -129,11 +133,10 @@ export const main = createSlice({
 			state,
 			{ payload }: PayloadAction<Omit<IList, "active" | "count">>,
 		) => {
-			state.list = state.list.map((item,_key) =>
-				{
-					return item.id === payload.id ? { ...item, ...payload } : item;
-				},
-			);
+			state.list = state.list.map((item) => {
+				return item.id === payload.id ? { ...item, ...payload } : item;
+			});
+			state.editingId = null;
 		},
 		setEditId: (state, { payload }: PayloadAction<null | string>) => {
 			state.editingId = payload;
