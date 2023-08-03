@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { Button, Modal, Form, Input} from "antd";
 import { store, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser,  editUser, setEditId, } from "../../store";
+import { addUser,  editUser, main, setEditId, } from "../../store";
 const AddModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const dispatch = useDispatch();
 	const editingId = useSelector((state: RootState) => state.main.editingId);
 	const [form] = Form.useForm();
 	const showModal = () => {setIsModalOpen(true)};
-	
+
 	useEffect(() => {
 		if (editingId) {
 			const row = store.getState().main.list.find((item) => item.id === editingId);
@@ -18,9 +18,9 @@ const AddModal = () => {
 				username: row?.username,
 				last_name: row?.last_name,
 				first_name: row?.first_name,
+
 			});
 		}
-		
 	}, [editingId]);
 	const handleOk = () => {
 		if (!editingId) {
@@ -48,9 +48,6 @@ const AddModal = () => {
 		<>
 			<Button
 				type='primary'
-				size="middle"
-				
-				style={{  display: "inline" }}
 				onClick={showModal}>
 				ADD
 			</Button>
@@ -59,7 +56,7 @@ const AddModal = () => {
 				open={isModalOpen}
 				onOk={handleOk}
 				onCancel={handleCancel}>
-				<Form
+				<Form 
 					form={form}
 					autoComplete='off'>
 					<Form.Item
